@@ -1,3 +1,11 @@
 body{
-    background-color:blue;
+    background-color:#53a685;
+}
+main{
+ background-color:#e6edea;
+ padding:0.5em 1em;
+ border-radius:0.5em;
+ max-width: 30em;
+ margin:auto;
+
 }

@@ -28,7 +28,7 @@ HTTP request ser ut
 * [x] Return HTML file from disk
 * [x] Return <form>
 * [x] Process GET request for form
-* [ ] Styling
+* [x] Styling
 * [ ] Process POST request from form
 * [ ] Handle more than one request
 * [ ] Refactor ➡ HttpMessage
