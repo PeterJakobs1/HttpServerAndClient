@@ -81,6 +81,8 @@ public class HttpServer {
 
     public static void main(String[] args) throws IOException {
         HttpServer httpServer = new HttpServer(1962);
+        //linker til denne siden:
+        //http://localhost:1962/index.html
         httpServer.setRoot(Paths.get("."));
     }
 
