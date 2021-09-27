@@ -17,8 +17,16 @@ public class HttpServer {
 
         new Thread(this::handleClients).start();
     }
+    private void handleClients(){
+        while(true) {
+            handleClient();
+        }
 
-    private void handleClients() {
+    }
+
+
+
+    private void handleClient() {
         try {
             Socket clientSocket = serverSocket.accept();
 

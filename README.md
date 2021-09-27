@@ -32,7 +32,7 @@ HTTP request ser ut
 * [ ] Process POST request from form
 * [ ] Handle more than one request
 * [ ] Refactor ➡ HttpMessage
-  * [ ] Feilhåndtering
+  * [ ] Feilhåndteringg
 * [ ] URL encoding
   * [ ] Refactor
 * [ ] Make executable JAR 

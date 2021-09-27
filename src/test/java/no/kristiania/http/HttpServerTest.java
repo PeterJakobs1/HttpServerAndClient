@@ -36,6 +36,17 @@ class HttpServerTest {
                 () -> assertEquals("<p>Hello world</p>", client.getMessageBody())
         );
     }
+    @Test
+    void shouldHandleMoreThanOneRequest() throws IOException {
+        //Starter server på en vilkårlig port -
+        // deretter spør vi hvilken port serversocketen starter på
+        // port 0 = java velger port for deg - getport() finner den porten
+        HttpServer server = new HttpServer (0);
+        assertEquals(200, new HttpClient("localhost", server.getPort(), "/hello")
+                .getStatusCode());
+        assertEquals(200, new HttpClient("localhost", server.getPort(), "/hello")
+                .getStatusCode());
+    }
 
     @Test
     void shouldEchoQueryParameter() throws IOException {
