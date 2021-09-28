@@ -23,6 +23,7 @@ public class HttpPostClient {
 
     }
     public int getStatusCode(){
+        return statusCode;
 
     }
 }
