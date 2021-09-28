@@ -6,11 +6,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HttpServerTest {
+
+    private HttpServer server;
+
 
     @Test
     void shouldReturn404ForUnknownRequestTarget() throws IOException {
@@ -78,5 +82,18 @@ class HttpServerTest {
 
         HttpClient client = new HttpClient("localhost", server.getPort(), "/example-file.html");
         assertEquals("text/html", client.getHeader("Content-Type"));
+    }
+    @Test
+    void shouldReturnRolesFromServer(){
+        server.setRoles(List.of("Teacher","Student"));
+
+
+        HttpClient client = new HttpClient("localhost", server.getPort(),"/api/roleOptions");
+        assertEquals(
+                "<option value=1>Teacher</option><option value=2>Student</option>",
+                client.getMessageBody()
+        )
+
+
     }
 }
