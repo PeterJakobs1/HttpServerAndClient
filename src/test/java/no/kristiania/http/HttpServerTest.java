@@ -54,9 +54,13 @@ class HttpServerTest {
 
     @Test
     void shouldEchoQueryParameter() throws IOException {
-        HttpServer server = new HttpServer(0);
-        HttpClient client = new HttpClient("localhost", server.getPort(), "/hello?yourName=johannes");
-        assertEquals("<p>Hello johannes</p>", client.getMessageBody());
+
+        HttpClient client = new HttpClient(
+                "localhost",
+                server.getPort(),
+                "/hello?firstName=Test&lastName=Persson"
+        );
+        assertEquals("<p>Hello Persson, Test</p>", client.getMessageBody());
     }
 
     @Test
@@ -84,7 +88,7 @@ class HttpServerTest {
         assertEquals("text/html", client.getHeader("Content-Type"));
     }
     @Test
-    void shouldReturnRolesFromServer(){
+    void shouldReturnRolesFromServer() throws IOException {
         server.setRoles(List.of("Teacher","Student"));
 
 
@@ -92,8 +96,7 @@ class HttpServerTest {
         assertEquals(
                 "<option value=1>Teacher</option><option value=2>Student</option>",
                 client.getMessageBody()
-        )
-
+        );
 
     }
 }
