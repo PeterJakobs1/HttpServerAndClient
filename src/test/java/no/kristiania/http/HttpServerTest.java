@@ -99,4 +99,17 @@ class HttpServerTest {
         );
 
     }
+    @Test
+    void shouldCreateNewPerson() throws IOException {
+        HttpPostClient postClient = new HttpPostClient (
+                "localhost",
+                server.getPort(),
+                "/api/newPerson",
+                "lastName=Persson&firstName=Test"
+
+        );
+        assertEquals(200,postClient.getStatusCode());
+        Person person = server.getPeople().get(0);
+        assertEquals("Persson",person.getFirstName());
+    }
 }

@@ -31,4 +31,6 @@ public class HttpClientTest {
         assertTrue(client.getMessageBody().startsWith("<!DOCTYPE html>"),
                 "Expected HTML: " + client.getMessageBody());
     }
+
+
 }
