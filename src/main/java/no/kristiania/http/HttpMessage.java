@@ -8,12 +8,33 @@ import java.util.Map;
 public class HttpMessage {
     public String startLine;
     public final Map<String, String> headerFields = new HashMap<>();
+    public String messageBody;
 
 
     public HttpMessage(Socket socket) throws IOException {
         startLine = HttpMessage.readLine(socket);
         readHeaders(socket);
+        messageBody = HttpMessage.readBytes(socket, getContentLength());
 
+    }
+
+    public int getContentLength() {
+        return Integer.parseInt(getHeader("Content-Length"));
+    }
+
+
+    public String getHeader(String headerName) {
+        return headerFields.get(headerName);
+    }
+
+
+
+    static String readBytes(Socket socket, int contentLength) throws IOException {
+        StringBuilder buffer = new StringBuilder();
+        for (int i = 0; i < contentLength; i++) {
+            buffer.append((char)socket.getInputStream().read());
+        }
+        return buffer.toString();
     }
 
     private void readHeaders(Socket socket) throws IOException {

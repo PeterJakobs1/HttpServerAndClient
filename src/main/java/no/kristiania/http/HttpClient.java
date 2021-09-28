@@ -2,12 +2,9 @@ package no.kristiania.http;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 
 public class HttpClient {
     private final int statusCode;
-    private String messageBody;
 
     private HttpMessage httpMessage;
 
@@ -26,18 +23,8 @@ public class HttpClient {
         this.statusCode = Integer.parseInt(statusLine[1]);
 
 
-        this.messageBody = readBytes(socket, getContentLength());
     }
 
-
-
-    private String readBytes(Socket socket, int contentLength) throws IOException {
-        StringBuilder buffer = new StringBuilder();
-        for (int i = 0; i < contentLength; i++) {
-            buffer.append((char)socket.getInputStream().read());
-        }
-        return buffer.toString();
-    }
 
     public int getStatusCode() {
         return statusCode;
@@ -47,11 +34,7 @@ public class HttpClient {
         return httpMessage.headerFields.get(headerName);
     }
 
-    public int getContentLength() {
-        return Integer.parseInt(getHeader("Content-Length"));
-    }
-
     public String getMessageBody() {
-        return messageBody;
+        return httpMessage.messageBody;
     }
 }
