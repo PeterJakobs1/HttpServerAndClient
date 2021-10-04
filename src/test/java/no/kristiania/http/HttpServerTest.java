@@ -13,26 +13,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HttpServerTest {
 
-    private HttpServer server;
+    private final HttpServer server = new HttpServer(0);
 
+    HttpServerTest() throws IOException {
+    }
 
     @Test
     void shouldReturn404ForUnknownRequestTarget() throws IOException {
-        HttpServer server = new HttpServer(10001);
         HttpClient client = new HttpClient("localhost", server.getPort(), "/non-existing");
         assertEquals(404, client.getStatusCode());
     }
 
     @Test
     void shouldRespondWithRequestTargetIn404() throws IOException {
-        HttpServer server = new HttpServer(10002);
         HttpClient client = new HttpClient("localhost", server.getPort(), "/non-existing");
         assertEquals("File not found: /non-existing", client.getMessageBody());
     }
-
     @Test
     void shouldRespondWith200ForKnownRequestTarget() throws IOException {
-        HttpServer server = new HttpServer(10003);
         HttpClient client = new HttpClient("localhost", server.getPort(), "/hello");
         assertAll(
                 () -> assertEquals(200, client.getStatusCode()),
@@ -40,6 +38,7 @@ class HttpServerTest {
                 () -> assertEquals("<p>Hello world</p>", client.getMessageBody())
         );
     }
+
     @Test
     void shouldHandleMoreThanOneRequest() throws IOException {
         //Starter server på en vilkårlig port -
@@ -54,7 +53,6 @@ class HttpServerTest {
 
     @Test
     void shouldEchoQueryParameter() throws IOException {
-
         HttpClient client = new HttpClient(
                 "localhost",
                 server.getPort(),
@@ -65,7 +63,6 @@ class HttpServerTest {
 
     @Test
     void shouldServeFiles() throws IOException {
-        HttpServer server = new HttpServer(0);
         server.setRoot(Paths.get("target/test-classes"));
 
         String fileContent = "A file created at " + LocalTime.now();
@@ -78,7 +75,6 @@ class HttpServerTest {
 
     @Test
     void shouldUseFileExtensionForContentType() throws IOException {
-        HttpServer server = new HttpServer(0);
         server.setRoot(Paths.get("target/test-classes"));
 
         String fileContent = "<p>Hello</p>";
@@ -87,29 +83,30 @@ class HttpServerTest {
         HttpClient client = new HttpClient("localhost", server.getPort(), "/example-file.html");
         assertEquals("text/html", client.getHeader("Content-Type"));
     }
+
     @Test
     void shouldReturnRolesFromServer() throws IOException {
-        server.setRoles(List.of("Teacher","Student"));
+        server.setRoles(List.of("Teacher", "Student"));
 
-
-        HttpClient client = new HttpClient("localhost", server.getPort(),"/api/roleOptions");
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/api/roleOptions");
         assertEquals(
                 "<option value=1>Teacher</option><option value=2>Student</option>",
                 client.getMessageBody()
         );
-
     }
+
+
     @Test
     void shouldCreateNewPerson() throws IOException {
-        HttpPostClient postClient = new HttpPostClient (
+        HttpPostClient postClient = new HttpPostClient(
                 "localhost",
                 server.getPort(),
                 "/api/newPerson",
                 "lastName=Persson&firstName=Test"
-
         );
-        assertEquals(200,postClient.getStatusCode());
+        assertEquals(200, postClient.getStatusCode());
         Person person = server.getPeople().get(0);
-        assertEquals("Persson",person.getFirstName());
+        assertEquals("Persson", person.getLastName());
     }
+
 }

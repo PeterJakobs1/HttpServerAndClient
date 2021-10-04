@@ -1,12 +1,11 @@
-body{
-    background-color:#53a685;
+body {
+    background-color: aliceblue;
 }
 
-main{
- background-color:#e6edea;
- padding:0.5em 1em;
- border-radius:0.5em;
- max-width: 30em;
- margin:auto;
-
+main {
+    padding: 1em;
+    background-color: white;
+    max-width: 60em;
+    margin: auto;
+    border-radius: .5em;
 }
